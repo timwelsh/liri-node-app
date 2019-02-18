@@ -23,15 +23,15 @@ for (var i = 3; i < args.length; i++) {
 queryString = inputArr.join(" ");
 
 switch (action) {
-    case "concert-this":
+    case "concert":
       concert(queryString);
       break;
     
-    case "spotify-this-song":
+    case "spotify":
       song(queryString);
       break;
     
-    case "movie-this":
+    case "movie":
       movie(queryString);
       break;
     
@@ -52,9 +52,7 @@ switch (action) {
           var results = data.tracks.items;
           // console.log(data.tracks.items[0])
           console.log("Song name is " + data.tracks.items[0].name); 
-          console.log("\r\n");
           console.log("Album name is " + data.tracks.items[0].album.name);
-          console.log("\r\n");
           console.log("Artist name is " + data.tracks.items[0].artists[0].name);
           console.log("\r\n");
           });
@@ -62,8 +60,16 @@ switch (action) {
       }
 
     function concert(query) {
-      //TODO: concert function
-      console.log("concert");
+      var queryUrl = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
+      axios.get(queryUrl).then(function (response) {
+        var events = response.data;
+        events.forEach(function (event) {
+          console.log("Artist: " + query);
+          console.log("Venue: " + event.venue.name);
+          console.log("Venue Location: " + event.venue.city);
+          console.log("\r\n");
+        });
+      });
     }
 
     function movie(query) {
@@ -71,6 +77,7 @@ switch (action) {
       axios.get(queryUrl).then(function (response) {
         console.log("Title: " + response.data.Title);
         console.log("Release Year: " + response.data.Year);
+        console.log("\r\n");
 
       });
     }
