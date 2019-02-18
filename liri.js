@@ -52,20 +52,27 @@ switch (action) {
           var results = data.tracks.items;
           // console.log(data.tracks.items[0])
           console.log("Song name is " + data.tracks.items[0].name); 
-          console.log("Album name is " + data.tracks.items[0].album.name)
-          console.log("Artist name is " + data.tracks.items[0].artists[0].name)
+          console.log("\r\n");
+          console.log("Album name is " + data.tracks.items[0].album.name);
+          console.log("\r\n");
+          console.log("Artist name is " + data.tracks.items[0].artists[0].name);
+          console.log("\r\n");
           });
         });
       }
 
-    function concert() {
+    function concert(query) {
       //TODO: concert function
       console.log("concert");
     }
 
-    function movie() {
-      //TODO: Movie function
-      console.log("movie");
+    function movie(query) {
+      var queryUrl = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
+      axios.get(queryUrl).then(function (response) {
+        console.log("Title: " + response.data.Title);
+        console.log("Release Year: " + response.data.Year);
+
+      });
     }
 
     function itSays() {
