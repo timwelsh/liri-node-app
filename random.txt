@@ -1,1 +1,3 @@
-spotify-this-song,"On Every Street"
+song,"On Every Street"
+movie, "Shawshank Redemption"
+concert, "Sting"
