@@ -6,6 +6,7 @@ var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
 var moment = require("moment");
 var axios = require("axios");
+var chalk = require("chalk");
 
 //Global variables
 var arr = [];
@@ -32,21 +33,14 @@ switch (action) {
     }
 
     function song(queryString) {
-        fs.readFile("random.txt", "utf8", function(err, data) {
-          if (err) {
-            return console.log(chalk.red(err));
-          }
-          spotify.search({ type: 'track', query: query, limit: 1 }, function(err, data) {
-            if (err) {
-              return console.log(chalk.red('Error occurred: ' + err));
-            }
-          var results = data.tracks.items;
-          // console.log(data.tracks.items[0])
-          console.log("Song name is " + data.tracks.items[0].name); 
-          console.log("Album name is " + data.tracks.items[0].album.name);
-          console.log("Artist name is " + data.tracks.items[0].artists[0].name);
-          console.log("\r\n");
-          });
+      spotify.search({ type: 'track', query: queryString, limit: 1, market: "US" }, function(err, data) {
+        if (err) {
+          return console.log(chalk.magenta('Error occurred: ' + err));
+        }
+        console.log("Song: " + data.tracks.items[0].name); 
+        console.log("Album: " + data.tracks.items[0].album.name);
+        console.log("Artist: " + data.tracks.items[0].artists[0].name);
+        console.log("\r\n");
         });
       }
 
@@ -64,7 +58,7 @@ switch (action) {
           });
         })
         .catch(function(err) {
-          console.log(chalk.red("Error: " + err))
+          console.log(chalk.magenta("Error: " + err))
         })
     }
 
@@ -90,15 +84,26 @@ Actors: ${movies.Actors}`);
 
       })
         .catch(function(err) {
-          console.log(chalk.red("Error: " + err));
+          console.log(chalk.magenta("Error: " + err));
       })
     }
 
     function itSays(queryString) {
       fs.readFile("random.txt", "utf8", function(err, data) {
         if(err) {
-          return console.log(chalk.red("Error: ", err));
+          return console.log(chalk.magenta("Error: ", err));
         }
+        let randomFile = data.split("\n");
+        let lines = [];
+        for(let i = 0; i < randomFile.length; i++) {
+          lines.push(randomFile[i]);
+        }
+        let randomNum = Math.floor((Math.random() * lines.length - 1) + 1);
+        // console.log(randomNum + " here " + randomFile.length + " " + lines)
+        line = lines[randomNum];
+        randomLine = line.split(",")[0];
+        randomDomain = (line.split(",")[1].slice(1, -1))
+        randomRequest = randomDomain.split(" ").join("+");
+        console.log(chalk.yellow(randomLine, randomDomain));
       })
-      console.log("itSays");
     }
